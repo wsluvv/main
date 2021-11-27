@@ -1,0 +1,49 @@
+import numpy as np
+import math
+from math import factorial
+from numpy import*
+import matplotlib.pyplot as plt
+
+mas_x=[0,115, 0.120, 0.125, 0.130, 0,140, 1,145]
+mas_y=[8.6572, 8.2932, 7.9582, 7.6489, 7.3623, 7.0961]
+h = mas_x[1] - mas_x[0]
+x1=0.122
+x2=0.157
+q = (x1-0) / h
+q1 = (x2-0) / h
+
+def y(mas_y, j):
+    mas=[]
+    for i in range(len(mas_y)):
+        mas.append(mas_y[i] - mas_y[i-1])
+    mas.pop(0)
+    if j == 1:
+        return mas
+    else:
+        j-=1
+        return y(mas, j)
+
+yx1= mas_y[0] + q * (y(mas_y,1)[0]) + (q * (q - 1)) / factorial(2) *  (y(mas_y,2)[0])
+yx1 = yx1 + (q * (q - 1) * (q - 2)) / factorial(3) * (y(mas_y,3)[0])
+yx1 = yx1 + (q * (q - 1) * (q - 2)) * (q - 3) / factorial(4) * (y(mas_y,4)[0])
+yx1 = yx1 + (q * (q - 1) * (q - 2)) * (q - 3) * (q - 4) / factorial(5) * (y(mas_y,5)[0])
+
+yx2 = mas_y[4] + q1 * (y(mas_y, 1)[3]) + (q1 * (q1 + 1) * (q1 + 2)) / factorial(3) * (y(mas_y,3)[2])
+yx2 = yx2 + (q1 * (q1 + 1) * (q1 + 2) * (q1 + 3) / factorial(4) * (y(mas_y,4)[1]))
+yx2 = yx2 + (q1 * (q1 + 1) * (q1 + 2) * (q1 + 3) * (q1 + 4) / factorial(5) * (y(mas_y,5)[0]))
+
+print ("derivatative = ",yx1)
+print ("derivatative = ",yx2)
+
+x = linspace(0.115, 1.145, 6)
+y = mas_y
+plt.plot(x, y, 'g--', color = 'blue')
+
+plt.axis([0, 1.3, 0, 10]) 
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Newton interpolation')
+plt.legend(['y(x)'])
+
+plt.grid()
+plt.show()
