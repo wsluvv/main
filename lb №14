@@ -1,0 +1,56 @@
+# a) y' = x + cos(y / sqrt(2))       y(0.8) = 1.4    [0.8; 1.8]  -  Метод Эйлeра
+# b) y' = x + sin(y / math.pi)       y(1.7) = 5.3    [1.7; 2.7]  -  Метод Эйлера-Коши  
+# h = 0.1    q = 0.0001    i = 10
+
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+xi = 0.8
+xmax = 1.8
+yi = 1.4
+i = 0
+h = 0.1
+x = np.array(range(int((xmax - xi)/h+1)), float)
+y = np.array(range(len(x)), float)
+
+while xi <= xmax + h:
+    print(i, '   ', xi, '   ', yi)
+    if xi == yi:
+        break;
+    x[i] = xi
+    y[i] = yi
+    xi = xi + h
+    i = i + 1
+    yi = yi +  h * (xi + math.cos(yi / math.sqrt(2)))
+
+print('\n')
+xi = 1.7
+xmax = 2.7
+yi = 5.3
+i = 0
+
+x1 = np.array(range(int((xmax - xi)/h+1)), float)
+y1 = np.array(range(len(x)), float)
+
+while xi <= xmax + h:
+    print(i, '   ', xi, '   ', yi)
+    if xi == xmax:
+        break;
+    x1[i] = xi
+    y1[i] = yi
+    xi = xi + h
+    i = i + 1
+    yi = yi +  (h/2) * (yi + (xi + math.sin(yi/math.pi)))
+
+plt.plot(x, y, label = 'y = y + h * (x + cos(y / sqrt(2)))',marker = 'o')
+plt.grid()
+plt.title('Метод Эйлeра')
+plt.legend()
+plt.show()
+
+plt.plot(x, y, label = 'y = y + h/2 * (y + (x + sin(y / math.pi)))',marker = 'o')
+plt.grid()
+plt.title('Метод Эйлeра Коши')
+plt.legend()
+plt.show()
